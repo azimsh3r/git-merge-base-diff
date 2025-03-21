@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import java.util.regex.Pattern
 
 class MergeBaseDiff {
-    private val httpClient = HttpClient(CIO)
+    var httpClient = HttpClient(CIO)
 
     fun findChangedFiles(
         owner: String,
@@ -40,7 +40,7 @@ class MergeBaseDiff {
         }
     }
 
-    private fun getLocalChangedFiles(localRepoPath: String, mergeBase: String, branchB: String): List<String> {
+    fun getLocalChangedFiles(localRepoPath: String, mergeBase: String, branchB: String): List<String> {
         return runCatching {
             CommandRunner.runCommand(listOf("git", "diff", "--name-only", mergeBase, branchB), localRepoPath)
                 .trim()
@@ -51,7 +51,7 @@ class MergeBaseDiff {
         }
     }
 
-    private suspend fun getRemoteChangedFiles(owner: String, repo: String, mergeBase: String, branchA: String, token: String?): List<String> {
+    suspend fun getRemoteChangedFiles(owner: String, repo: String, mergeBase: String, branchA: String, token: String?): List<String> {
         return runCatching {
             httpClient.get("https://api.github.com/repos/$owner/$repo/compare/$mergeBase...$branchA") {
                 headers {
@@ -64,7 +64,7 @@ class MergeBaseDiff {
         }
     }
 
-    private fun extractFilePaths(diff: String): List<String> {
+    fun extractFilePaths(diff: String): List<String> {
         return Pattern.compile("\\+\\+\\+ b/(.*?)\n")
             .matcher(diff)
             .let { matcher ->
