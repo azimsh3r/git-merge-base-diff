@@ -1,44 +1,69 @@
-# git-merge-base-diff
+# Git Merge Base Differ
 
-## Overview
-`git-merge-base-diff` is a Kotlin library that identifies files that have been independently modified in two different branches since their last common ancestor (merge base). It helps detect conflicting changes between a **local** and **remote** branch before merging.
+**Git Merge Base Differ** is a Kotlin library and CLI tool that detects files changed independently in both a local and remote Git branch since their common ancestor (merge base). It avoids fetching remote branches and uses only command-line Git and HTTP requests.
 
-## Features
-- Finds the **merge base** commit between two branches.
-- Lists files changed in **branchA** (remote) and **branchB** (local).
-- Returns the **intersection** of files modified in both branches.
-- Uses the GitHub API to fetch remote changes.
-- Supports local Git operations using shell commands.
+---
 
-## Installation
-Add the library to your Kotlin project:
+## 🔧 What It Does
 
-```kotlin
-// Gradle (Kotlin DSL)
-dependencies {
-    implementation("com.yourname:git-merge-base-diff:1.0.0")
-}
+Given a local Git repository and two branches:
+- `branchA` (exists both remotely and locally, but may have diverged)
+- `branchB` (created locally from `branchA`)
+
+The tool finds files that were modified in **both** branches since their common base commit, based on:
+- Local changes via Git CLI
+- Remote changes via GitHub API
+
+---
+
+## 🚀 CLI Usage
+
+You can run the CLI using Gradle:
+
+```bash
+./gradlew run --args="--owner azimsh3r --repo testRepo --path C:\\Users\\Azim\\Desktop\\testRepoHeree --branchA master --branchB azim"
 ```
 
-## Usage
+View available options:
+
+```bash
+./gradlew run --args="--help"
+```
+
+---
+
+## 🧩 API Usage
+
+This library can be used directly in your Kotlin/Java project:
+
 ```kotlin
-val diffFinder = MergeBaseDiff()
-val changedFiles = diffFinder.findChangedFiles(
-    owner = "your-github-username",
-    repo = "your-repo-name",
-    accessToken = "your-github-access-token",
-    localRepoPath = "/path/to/local/repo",
-    branchA = "main",    // Remote branch
-    branchB = "feature"  // Local branch
+val differ = GitMergeBaseDiffer()
+val changedFiles = differ.findCommonChangedFiles(
+    owner = "azimsh3r",
+    repo = "repo",
+    accessToken = "your-token",
+    localRepoPath = "path",
+    branchA = "master",
+    branchB = "azim"
 )
-
-println("Files changed in both branches: $changedFiles")
 ```
 
-## Requirements
-- Kotlin 1.8+
-- Git installed on the system
-- GitHub access token for API requests
+---
 
-## License
-[MIT License](LICENSE)
+## ✅ Tests
+
+The project includes unit tests for core functionality using **JUnit 5** and **MockK**.
+
+Run tests with:
+
+```bash
+./gradlew test
+```
+
+---
+
+## 🤝 Contribution
+
+Contributions are welcome. Please keep the code clean, tested, and modular.
+
+---
