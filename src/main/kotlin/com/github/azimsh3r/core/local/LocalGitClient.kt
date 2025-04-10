@@ -10,7 +10,7 @@ class LocalGitClient {
             CommandRunner
                 .runCommand(listOf("git", "merge-base", branchA, branchB), localRepoPath)
                 .trim()
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             throw LocalGitRepoNotAccessible(localRepoPath)
         }
     }

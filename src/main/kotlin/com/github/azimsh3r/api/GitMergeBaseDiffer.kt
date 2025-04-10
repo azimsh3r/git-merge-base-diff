@@ -1,7 +1,5 @@
 package com.github.azimsh3r.api
 
-import com.github.azimsh3r.core.exceptions.GitLocalException
-import com.github.azimsh3r.core.exceptions.GitRemoteException
 import com.github.azimsh3r.core.remote.GitHubRemoteGitApiClient
 import com.github.azimsh3r.core.remote.RemoteGitApiClient
 import com.github.azimsh3r.core.local.LocalGitClient
@@ -11,7 +9,7 @@ class GitMergeBaseDiffer {
     private val localGitClient = LocalGitClient()
     private val remoteGitApiClient : RemoteGitApiClient = GitHubRemoteGitApiClient()
 
-    @Throws(GitLocalException::class, GitRemoteException::class)
+    @Throws(RuntimeException::class)
     fun findChangedFiles(
         owner: String,
         repo: String,
