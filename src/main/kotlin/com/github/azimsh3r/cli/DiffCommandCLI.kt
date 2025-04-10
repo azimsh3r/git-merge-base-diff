@@ -17,8 +17,7 @@ class DiffCommand : CliktCommand() {
     private val gitMergeDiffer  = GitMergeBaseDiffer()
 
     override fun run() {
-        val files = gitMergeDiffer.findChangedFiles(owner, repo, token, path, branchA, branchB)
-
+        val files = gitMergeDiffer.findCommonChangedFiles(owner, repo, token, path, branchA, branchB)
         files.forEach { println(it) }
     }
 }

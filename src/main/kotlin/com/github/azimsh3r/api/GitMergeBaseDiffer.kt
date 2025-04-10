@@ -6,11 +6,11 @@ import com.github.azimsh3r.core.local.LocalGitClient
 import kotlinx.coroutines.runBlocking
 
 class GitMergeBaseDiffer {
-    private val localGitClient = LocalGitClient()
-    private val remoteGitApiClient : RemoteGitApiClient = GitHubRemoteGitApiClient()
+    var localGitClient = LocalGitClient()
+    var remoteGitApiClient : RemoteGitApiClient = GitHubRemoteGitApiClient()
 
     @Throws(RuntimeException::class)
-    fun findChangedFiles(
+    fun findCommonChangedFiles(
         owner: String,
         repo: String,
         accessToken: String?,
@@ -26,21 +26,3 @@ class GitMergeBaseDiffer {
         return localChangedFiles.intersect(remoteChangedFiles.toSet()).toList()
     }
 }
-
-//fun main() {
-//    val gitMergeBaseDiffer = GitMergeBaseDiffer()
-//
-//    try {
-//        val changedFiles = gitMergeBaseDiffer.findChangedFiles(
-//            "azimsh3r",
-//            "testRepo",
-//            null,
-//            "C:\\Users\\Azim\\Desktop\\testRepoHere",
-//            "master",
-//            "azim"
-//        )
-//        println(changedFiles)
-//    } catch (e : Exception) {
-//        e.printStackTrace()
-//    }
-//}

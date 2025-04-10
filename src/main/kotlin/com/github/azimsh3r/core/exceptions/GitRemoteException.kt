@@ -7,5 +7,3 @@ class RepositoryNotFoundException : RuntimeException("The repository could not b
 class BadRequestException : RuntimeException("The request was malformed")
 class UnexpectedResponseException(status: HttpStatusCode) :
     RuntimeException("Unexpected HTTP status: $status")
-
-class GitHubApiException(cause: Throwable?) : RuntimeException("GitHub API error: ${cause?.message}")

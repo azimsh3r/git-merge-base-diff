@@ -9,7 +9,7 @@ import io.ktor.http.*
 import java.util.regex.Pattern
 
 class GitHubRemoteGitApiClient : RemoteGitApiClient {
-    private var httpClient = HttpClient(CIO)
+    var httpClient = HttpClient(CIO)
 
     override suspend fun getChangedFilesSinceMergeBase(
         owner: String,
@@ -25,6 +25,8 @@ class GitHubRemoteGitApiClient : RemoteGitApiClient {
             }
         }
 
+        println(response.bodyAsText())
+
         when (response.status) {
             HttpStatusCode.Unauthorized -> throw UnauthorizedException()
             HttpStatusCode.NotFound -> throw RepositoryNotFoundException()
@@ -37,7 +39,7 @@ class GitHubRemoteGitApiClient : RemoteGitApiClient {
         return extractFilePaths(response.bodyAsText())
     }
 
-    private fun extractFilePaths(responseBody: String): List<String> {
+    fun extractFilePaths(responseBody: String): List<String> {
         return Pattern.compile("\\+\\+\\+ b/(.*?)\n")
             .matcher(responseBody)
             .let { matcher ->
