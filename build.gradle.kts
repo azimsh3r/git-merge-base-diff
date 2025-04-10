@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+    application
 }
 
 group = "com.github.azimsh3r.mergebasediff"
@@ -20,6 +21,11 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:3.1.1")
     implementation("io.ktor:ktor-client-logging:3.1.1")
     implementation("com.github.ajalt.clikt:clikt:5.0.1")
+    implementation("com.github.ajalt.clikt:clikt-markdown:5.0.3")
+}
+
+application {
+    mainClass = "com.github.azimsh3r.cli.DiffCommandCLIKt"
 }
 
 tasks.test {
